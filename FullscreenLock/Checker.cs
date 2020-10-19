@@ -26,10 +26,7 @@ namespace FullscreenLock
         [DllImport("user32.dll")]
         private static extern IntPtr GetShellWindow();
 
-		[DllImport("user32.dll")]
-		static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
-
-		Label l; // One day I'll figure out how to set the label without sending a pointer into the constructor.
+        Label l; // One day I'll figure out how to set the label without sending a pointer into the constructor.
         public Checker(Label ll)
         {
             l = ll;
@@ -55,34 +52,19 @@ namespace FullscreenLock
         private void CheckForFullscreenApps(object sender, System.EventArgs e)
         {
         
-            if (IsForeGroundCSGO())
+            if (IsForegroundFullScreen())
             {
                 
-                l.Text = "CSGO cursor locked";
+                l.Text = "Fullscreen app in focus";
             }
             else
             {
-                l.Text = "Waiting for CSGO";
+                l.Text = "Waiting for focus";
                 
             }
         }
 
-		private bool IsForeGroundCSGO()
-		{
-			const int nChars = 256;
-			StringBuilder Buff = new StringBuilder(nChars);
-			IntPtr handle = GetForegroundWindow();
-			string title = string.Empty;
-
-			if (GetWindowText(handle, Buff, nChars) > 0)
-			{
-				title = Buff.ToString();
-			}
-
-			return title == "Counter-Strike: Global Offensive";
-		}
-
-		public static bool IsForegroundFullScreen()
+        public static bool IsForegroundFullScreen()
         {
             //Get the handles for the desktop and shell now.
             IntPtr desktopHandle; 
